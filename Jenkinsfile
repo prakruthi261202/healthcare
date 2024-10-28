@@ -8,7 +8,7 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 echo 'This stage is to clone the repo from github'
-                git branch: 'master', url: 'https://github.com/rohinicbabu/star-agile-health-care.git'
+                git branch: 'master', url: 'https://github.com/prakruthi261202/healthcare.git/'
             }
         }
         stage('Create Package') {
@@ -30,6 +30,12 @@ pipeline {
                     reportTitles: '',
                     useWrapperFileDirectly: true
                 ])
+            }
+        }
+        stage('Create Docker Image') {
+            steps {
+                echo 'This stage will create a Docker image'
+                sh 'docker build -t prakruthi810/healthcare:1.0 .'
             }
         }
     }
