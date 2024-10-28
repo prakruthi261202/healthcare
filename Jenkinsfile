@@ -78,7 +78,11 @@ pipeline {
         }
         stage('Get Kubeconfig') {
             steps {
-                sh 'aws eks update-kubeconfig --region us-east-1 --name test-cluster'
+                sh '''
+                source /home/ubuntu/myenv/bin/activate
+                /home/ubuntu/myenv/bin/aws eks update-kubeconfig --region us-east-1 --name test-cluster
+                /home/ubuntu/myenv/bin/aws eks get-token --cluster-name test-cluster
+                '''
                 sh 'kubectl get nodes'
             }
         }
@@ -112,7 +116,11 @@ pipeline {
         }
         stage('Get Kubeconfig for Production') {
             steps {
-                sh 'aws eks update-kubeconfig --region us-east-2 --name prod-cluster'
+                sh '''
+                source /home/ubuntu/myenv/bin/activate
+                /home/ubuntu/myenv/bin/aws eks update-kubeconfig --region us-east-2 --name prod-cluster
+                /home/ubuntu/myenv/bin/aws eks get-token --cluster-name prod-cluster
+                '''
                 sh 'kubectl get nodes'
             }
         }
